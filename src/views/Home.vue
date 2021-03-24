@@ -13,7 +13,8 @@
                 All your favourite<br />
                 author quotes in one place
               </h2>
-              <a href="/quotes" class="actionbutton">Get Quotes</a>
+              <router-link to="/quotes" class="actionbutton"> Get Quotes</router-link>
+              
             </div>
             <div class="mt-5 pt-3">
               <img src="../assets/header.png" alt="header" class="img-fluid" />
