@@ -5,8 +5,8 @@
         <router-link :to="{ name: 'Quotes' }">
           <div class="cardz mb-5">
             <h2>Author Quotes</h2>
-            <p>The Author id is {{ id }}</p>
-            <p>Author Specefic quote is {{ quote.title }}</p>
+            <p class="text">The Author id is {{ id }}</p>
+            <p class="text">Author Specefic quote is {{ quote.title }}</p>
           </div>
         </router-link>
       </div>
@@ -32,14 +32,17 @@
     0px 12.1574px 11.8781px rgba(0, 0, 0, 0.012699),
     0px 6.89112px 6.09643px rgba(0, 0, 0, 0.0121579),
     0px 3.01109px 2.28593px rgba(0, 0, 0, 0.0102347);
-  width: 400px;
+     width:18.75rem;
+   height:14.5rem;
   color: #000000;
   padding: 20px 20px;
   margin-top: 10px;
-  font-size: 1.2rem;
-}
+  }
 a {
   text-decoration: none;
+}
+.text{
+font-size:1.2rem;
 }
 </style>
 <script>
