@@ -4,7 +4,7 @@
     <div  v-if="quotes" class="row">
          <h2>{{msg}}</h2>
        
-    <div v-for ="quote in quotes" :key="quote.id" class="col-md-3 result">
+    <div v-for ="quote in quotes" :key="quote.id" class="col-md-4">
       <router-link :to="{ name: 'Quote',params: { id: quote.id }}">
             <div class="cardz">
               <p class="text">{{ quote.title}}</p>
