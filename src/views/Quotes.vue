@@ -7,7 +7,7 @@
     <div v-for ="quote in quotes" :key="quote.id" class="col-md-3 result">
       <router-link :to="{ name: 'Quote',params: { id: quote.id }}">
             <div class="cardz">
-              <h2>{{ quote.title}}</h2>
+              <p class="text">{{ quote.title}}</p>
               
           </div>
               </router-link>
@@ -43,13 +43,17 @@ box-shadow:0px 100px 80px rgba(0, 0, 0, 0.03), 0px 51.1542px 51.419px rgba(0, 0,
 color:#000000;
 padding:20px  20px;
 margin-top:20px;
-font-size: 1.2rem;
+width:18.75rem;
+height:12.5rem;
 }
 h2{
 text-align:center;
 }
 a{
 text-decoration: none;
+}
+.text{
+font-size:1.2rem;
 }
 @media only screen and(max-width:500px){
 .result {
