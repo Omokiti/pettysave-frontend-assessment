@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Modal />
+    <Header />
+    <Grid />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from "./components/Header.vue";
+import Grid from "./components/Grid.vue";
+import Modal from "./components/Modal.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Header,
+    Grid,
+    Modal,
+  },
+};
 </script>
 
 <style>
+:root {
+  --grey: #dbe3ea;
+  --image-placeholder: #ebecec;
+  --text-placeholder: #e4e4e4;
+  --card-placeholder: #a4b3c2;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
