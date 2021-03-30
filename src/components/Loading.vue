@@ -5,7 +5,7 @@
       :style="{ height: Math.random() * 20 + 10 + 'rem' }"
     >
       <div class="name"></div>
-      <div class="approved"></div>
+      <div class="title"></div>
       <div class="wave"></div>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
 }
 
 .loading .name,
-.loading .approved {
+.loading .title {
   position: absolute;
   background: var(--text-placeholder);
   left: 0.5rem;
@@ -61,7 +61,7 @@ export default {
   padding: 1rem 2rem 0 4rem;
 }
 
-.loading .approved {
+.loading .title {
   bottom: 1rem;
   font-size: 0.75rem;
   background-color: #f4f4f4;

@@ -1,15 +1,16 @@
 <template>
   <div>
-    <div id="images" v-if="loading">
+    <div id="images" v-if="$store.state.loading">
       <Loading v-for="index in 10" :key="index" />
     </div>
     <div id="images">
       <Card
-        v-for="photo in photos"
-        v-bind:key="photo.authorid"
+        v-for="photo in $store.state.articles"
+        v-bind:key="photo.id"
         :url="photo.url"
-        :name="photo.authordisplay"
-        :approved="photo.approved"
+        :author="photo.users.name"
+        :title="photo.title"
+        :content="photo.body"
       ></Card>
     </div>
   </div>
@@ -18,7 +19,6 @@
 <script lang="ts">
 import Card from "./Card.vue";
 import Loading from "./Loading.vue";
-import xmlJS from "xml-js";
 
 export default {
   name: "Grid",
@@ -28,9 +28,7 @@ export default {
   },
   data: function () {
     return {
-      photos: [],
       count: 0,
-      loading: true,
     };
   },
   updated() {
@@ -43,60 +41,58 @@ export default {
     window.addEventListener("resize", this.resizeAllGridItems);
     this.resizeAllGridItems();
   },
-
   beforeDestroy() {
     window.removeEventListener("resize", this.resizeAllGridItems);
   },
   methods: {
     updateCount: function () {
       this.count += 1;
-      if (this.count === this.photos.length) {
-        this.loading = false;
+      if (this.count === this.$store.state.articles.length / 4) {
         this.resizeAllGridItems();
         console.log("Loading complete");
+        this.$store.commit("stopLoading");
       }
-    },
-    formatXMLData: function (data) {
-      const res = {};
-      for (const d of data) {
-        if (d.elements) {
-          res[d.name] = d.elements[0].text;
-        }
-      }
-      return res;
     },
     getDataFromApi: async function () {
-      const res = await fetch(
-        "https://stark-coast-82064.herokuapp.com/https://reststop.randomhouse.com/resources/authors?expandLevel=1&start=0&max=50&firstName=graham",
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Basic " + btoa("testuser:testpassword"),
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = JSON.parse(
-        xmlJS.xml2json(await res.text(), { compact: false, spaces: 4 })
-      );
+      const users = {};
+      const data = await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       const responses = [];
-      for (const d of data.elements[0].elements) {
-        const res = this.formatXMLData(d.elements);
-        res["uri"] = d.attributes.uri;
-        res["url"] = `https://via.placeholder.com/${this.getSize()}.png/000000/FFFFFF?text=${res["authordisplay"]}`
-        responses.push(res);
+      for (const response of await data.json()) {
+        const userId = response["userId"];
+        if (!users[userId]) {
+          const user = await fetch(
+            "https://jsonplaceholder.typicode.com/users/" + userId,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          users[userId] = await user.json();
+        }
+
+        response.users = users[userId];
+        response.url = `https://via.placeholder.com/${this.getSize()}.png/000000/FFFFFF?text=${response[
+          "body"
+        ].substr(0, 50)}`;
+        responses.push(response);
       }
-      this.photos = responses;
-      console.log(responses);
-      this.loading = false;
+
+      this.$store.commit("setArticles", responses);
     },
     getSize: function () {
       const max_ = 200;
       const h = Math.min(Math.round(Math.random() * max_) + 150, max_);
-      const w =  Math.min(Math.round(Math.random() * max_) + 150, max_);
+      const w = Math.min(Math.round(Math.random() * max_) + 150, max_);
 
-      return `${h}x${w}`
+      return `${h}x${w}`;
     },
     resizeGridItem: function (item) {
       const grid = document.getElementById("images");

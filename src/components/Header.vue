@@ -2,7 +2,7 @@
   <header>
     <div id="search">
       <i class="fa fa-search"></i>
-      <input type="search" placeholder="Search for authors" id="search" />
+      <input type="search" placeholder="Search for users" id="search" />
     </div>
   </header>
 </template>

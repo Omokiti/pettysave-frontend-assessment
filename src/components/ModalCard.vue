@@ -1,14 +1,11 @@
 <template>
   <div id="modal-card">
-    <div id="modal-close">
-      <i class="fa fa-times" v-on:click="hideModal" aria-hidden="true"></i>
-    </div>
-    <div id="modal-image">
-      <img :src="url" />
-    </div>
-    <div id="modal-text" v-bind:style="{ width: imageWidth + 'px' }">
-      <div id="name">{{ name }}</div>
-      <div id="approved">{{ approved }}</div>
+    <div id="modal-text" v-bind:style="{ width: cardWidth + 'px' }">
+      <div id="name">{{ title }}</div>
+      <div id="writer">Written by {{ author }}</div>
+      <article>
+        {{ content }}
+      </article>
     </div>
   </div>
 </template>
@@ -16,10 +13,10 @@
 <script>
 export default {
   name: "ModalCard",
-  props: ["name", "url", "approved"],
+  props: ["author", "url", "title", "content"],
   data: () => {
     return {
-      imageWidth: 0,
+      cardWidth: 0,
     };
   },
   mounted() {
@@ -28,11 +25,7 @@ export default {
   },
   methods: {
     modalResize() {
-      this.imageWidth = document.querySelector("#modal-image img").clientWidth;
-    },
-    hideModal() {
-      alert();
-      this.showModal = false;
+      this.cardWidth = document.querySelector("body").clientWidth / 2;
     },
   },
   beforeDestroy() {
@@ -42,18 +35,43 @@ export default {
 </script>
 
 <style scoped>
+article {
+  margin: 2rem 1rem;
+  font-size: 1.5rem;
+}
+
+#name {
+  font-size: 3rem;
+  font-family: "Droid Serif", serif;
+  text-transform: capitalize;
+  text-transform: uppercase;
+}
+
+#writer {
+  font-size: 1.5rem;
+  font-family: "Playfair Display", serif;
+}
+
+#writer::before {
+  border-top: 1px solid #000;
+  content: "";
+  width: 50%;
+  height: 7px;
+  display: block;
+  margin: 0 auto;
+}
+
+#writer::after {
+  border-top: 1px solid #000;
+  content: "";
+  width: 50%;
+  height: 7px;
+  display: block;
+  margin: 0 auto;
+}
+
 #modal-card {
   margin: 2rem;
-}
-
-#modal-close {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-}
-
-#modal-close i {
-  color: white;
 }
 
 #modal-image {
@@ -62,22 +80,25 @@ export default {
 }
 
 #modal-card img {
-  border-radius: 1rem 1rem 0 0;
+  border-radius: 1rem;
   max-height: inherit;
   max-width: inherit;
 }
 
 #modal-text {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1px;
   background-color: white;
   padding-top: 0.5rem;
   padding-bottom: 2rem;
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 1rem;
   margin: auto;
   margin-top: -0.2rem;
+  text-align: center;
 }
 
 #modal-text div {
-  text-align: left;
+  text-align: center;
   padding-left: 2rem;
   padding-top: 0.5rem;
 }
